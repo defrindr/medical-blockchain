@@ -196,13 +196,30 @@ contract RekamMedis {
         return _dokters[_dokterAddress];
     }
 
-    // Fungsi untuk melihat detail data pasien
-    function detailPasien(
-        address _pasienAddress
-    ) public view returns (IdentitasPasien memory, StatusPasien memory) {
+    // Fungsi untuk melihat detail data pasien beserta semua komponen data
+    function detailPasienDenganDetail()
+        public
+        view
+        returns (
+            IdentitasPasien memory,
+            StatusPasien memory,
+            HasilAnamnesis memory,
+            HasilPemeriksaanFisik memory,
+            HasilPemeriksaanDiagnostik memory,
+            DiagnosaRencana memory,
+            Intervensi memory,
+            Keuangan memory
+        )
+    {
         return (
-            _identitasPasien[_pasienAddress],
-            _statusPasien[_pasienAddress]
+            _identitasPasien[msg.sender],
+            _statusPasien[msg.sender],
+            _hasilAnamnesis[msg.sender],
+            _hasilPemeriksaanFisik[msg.sender],
+            _hasilPemeriksaanDiagnostik[msg.sender],
+            _diagnosaRencana[msg.sender],
+            _intervensi[msg.sender],
+            _keuangan[msg.sender]
         );
     }
 
@@ -233,7 +250,7 @@ contract RekamMedis {
     }
 
     // Fungsi untuk membaca hasil anamnesis pasien
-    function bacaHasilAnamnesis() public view returns (HasilAnamnesis memory) {
+    function lihatHasilAnamnesis() public view returns (HasilAnamnesis memory) {
         return _hasilAnamnesis[msg.sender];
     }
 
@@ -252,7 +269,11 @@ contract RekamMedis {
     }
 
     // Fungsi untuk membaca hasil pemeriksaan fisik pasien
-    function bacaHasilPemeriksaanFisik() public view returns (HasilPemeriksaanFisik memory) {
+    function lihatHasilPemeriksaanFisik()
+        public
+        view
+        returns (HasilPemeriksaanFisik memory)
+    {
         return _hasilPemeriksaanFisik[msg.sender];
     }
 
@@ -271,8 +292,10 @@ contract RekamMedis {
         uint256 _mchcKher,
         uint256 _mcvVer,
         uint256 _trombosit
-        // Tambahkan parameter untuk pemeriksaan diagnostik lainnya sesuai dengan struktur
-    ) public {
+    )
+        public
+    // Tambahkan parameter untuk pemeriksaan diagnostik lainnya sesuai dengan struktur
+    {
         _hasilPemeriksaanDiagnostik[msg.sender] = HasilPemeriksaanDiagnostik(
             _eritrosit,
             _hemoglobin,
@@ -293,7 +316,86 @@ contract RekamMedis {
     }
 
     // Fungsi untuk membaca hasil pemeriksaan diagnostik pasien
-    function bacaHasilPemeriksaanDiagnostik() public view returns (HasilPemeriksaanDiagnostik memory) {
+    function lihatHasilPemeriksaanDiagnostik()
+        public
+        view
+        returns (HasilPemeriksaanDiagnostik memory)
+    {
         return _hasilPemeriksaanDiagnostik[msg.sender];
+    }
+
+    // Fungsi untuk membuat atau memperbarui diagnosa dan rencana penatalaksanaan pasien
+    function tambahDiagnosaRencana(
+        string memory _diagnosaUtama,
+        string memory _rencanaPenatalaksanaan,
+        string memory _dokter,
+        string memory _tempat,
+        string memory _intervensiDokter
+    ) public {
+        _diagnosaRencana[msg.sender] = DiagnosaRencana(
+            _diagnosaUtama,
+            _rencanaPenatalaksanaan,
+            _dokter,
+            _tempat,
+            _intervensiDokter,
+            block.timestamp
+        );
+    }
+
+    // Fungsi untuk membaca diagnosa dan rencana penatalaksanaan pasien
+    function lihatDiagnosaRencana()
+        public
+        view
+        returns (DiagnosaRencana memory)
+    {
+        return _diagnosaRencana[msg.sender];
+    }
+
+    // Fungsi untuk membuat atau memperbarui data intervensi pasien
+    function tambahIntervensi(
+        string memory _subjekAsesmen,
+        string memory _subjekPlanning,
+        string memory _subjekIntervensi,
+        string memory _objekAsesmen,
+        string memory _objekPlanning,
+        string memory _objekIntervensi
+    ) public {
+        _intervensi[msg.sender] = Intervensi(
+            _subjekAsesmen,
+            _subjekPlanning,
+            _subjekIntervensi,
+            _objekAsesmen,
+            _objekPlanning,
+            _objekIntervensi,
+            block.timestamp
+        );
+    }
+
+    // Fungsi untuk membaca data intervensi pasien
+    function lihatIntervensi() public view returns (Intervensi memory) {
+        return _intervensi[msg.sender];
+    }
+
+    // Fungsi untuk membuat atau memperbarui data keuangan pasien
+    function tambahKeuangan(
+        uint256 _biayaPemeriksaan,
+        uint256 _biayaObat,
+        uint256 _biayaRawatInap,
+        uint256 _biayaPenanganan,
+        string memory _jenisPembayaran
+    ) public {
+        _keuangan[msg.sender] = Keuangan(
+            _biayaPemeriksaan,
+            _biayaObat,
+            _biayaRawatInap,
+            _biayaPenanganan,
+            _jenisPembayaran,
+            block.timestamp
+        );
+    }
+
+    // Fungsi untuk membaca data keuangan pasien
+    function lihatKeuangan() public view returns (Keuangan memory) {
+        return _keuangan[msg.sender];
     }
 }
