@@ -1,6 +1,6 @@
 const EnumRoles = require("../../../enums/roles");
 const bcrypt = require("bcryptjs");
-const { User, Role } = require("../../../models");
+const { User, Role, Pasien } = require("../../../models");
 const sequelize = require("../../../db");
 
 const ROLE = EnumRoles.IDPATIENT;
@@ -16,6 +16,10 @@ const showConfig = {
       where: {
         id: ROLE,
       },
+    },
+    {
+      model: Pasien,
+      as: "pasiens",
     },
   ],
   attributes: [
@@ -49,12 +53,21 @@ const show = async (req, res) => {
   }
 
   return res
-    .status(404)
+    .status(200)
     .json({ status: true, message: "User tidak ditemukan", data: model });
 };
 
 const store = async (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    name,
+    email,
+    password,
+    noIdentity,
+    address,
+    gender,
+    bloodType,
+    birthday,
+  } = req.body;
 
   const transaction = await sequelize.transaction();
   try {
@@ -68,6 +81,19 @@ const store = async (req, res) => {
     );
 
     await model.setRoles(ROLE, { transaction });
+
+    await Pasien.create(
+      {
+        name,
+        userId: model.id,
+        noIdentity,
+        address,
+        gender,
+        bloodType,
+        birthday,
+      },
+      { transaction }
+    );
 
     if (!transaction.finished) await transaction.commit();
     return res.json({
@@ -86,7 +112,7 @@ const store = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password, blockchainAddress } = req.body;
+  const { name, email, password, blockchainAddress, address } = req.body;
 
   const transaction = await sequelize.transaction();
   const model = await _getModel(id);
@@ -96,14 +122,21 @@ const update = async (req, res) => {
       message: "User tidak ditemukan",
     });
   }
+  const patient = await Pasien.findOne({ where: { userId: model.id } });
 
   try {
-    if (name) model.name = name;
+    if (name) {
+      model.name = name;
+      patient.name = name;
+    }
+
+    if (address) patient.address = address;
     if (email) model.email = email;
     if (blockchainAddress) model.blockchainAddress = blockchainAddress;
     if (password) model.password = await bcrypt.hash(password, 12);
 
     await model.save({ transaction });
+    await patient.save({ transaction });
 
     await transaction.commit();
 

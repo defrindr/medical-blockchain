@@ -13,6 +13,7 @@ import IconBox from "components/Icons/IconBox";
 import { CreativeTimLogo } from "components/Icons/Icons";
 import { Separator } from "components/Separator/Separator";
 import { SidebarHelp } from "components/Sidebar/SidebarHelp";
+import { useAuth } from "contexts/AuthContext";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -21,6 +22,7 @@ import { NavLink, useLocation } from "react-router-dom";
 const SidebarContent = ({ logoText, routes }) => {
   // to check for active links and opened collapses
   let location = useLocation();
+  const auth = useAuth();
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
 
@@ -41,6 +43,13 @@ const SidebarContent = ({ logoText, routes }) => {
       }
       if (prop.hide) {
         return null;
+      }
+      if (prop?.roles && auth.user) {
+        console.log("auth", auth.user.roles[0]);
+        console.log("roles", JSON.stringify(prop.roles));
+        if (!prop.roles.includes(auth.user.roles[0])) {
+          return null;
+        }
       }
       if (prop.category) {
         var st = {};
@@ -203,7 +212,7 @@ const SidebarContent = ({ logoText, routes }) => {
       <Stack direction="column" mb="40px">
         <Box>{links}</Box>
       </Stack>
-      <SidebarHelp />
+      {/* <SidebarHelp /> */}
     </>
   );
 };

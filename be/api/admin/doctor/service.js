@@ -49,7 +49,7 @@ const show = async (req, res) => {
   }
 
   return res
-    .status(404)
+    .status(200)
     .json({ status: true, message: "User tidak ditemukan", data: model });
 };
 

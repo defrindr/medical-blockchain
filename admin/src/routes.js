@@ -1,35 +1,35 @@
 // import
-import Dashboard from "views/Dashboard/Dashboard";
-import Pasien from "views/Dashboard/Pasien";
-import PasienAdd from "views/Dashboard/Pasien/add";
+import Dashboard from "views/Admin/Dashboard";
+import Pasien from "views/Admin/Pasien";
+import PasienAdd from "views/Admin/Pasien/add";
+import PasienRiwayatMedisList from "views/Admin/Pasien/riwayat-medis/index";
+import PasienRiwayatMedisAdd from "views/Admin/Pasien/riwayat-medis/add";
+import RiwayatMedisList from "views/Admin/RiwayatMedis/index";
+import PerawatList from "views/Admin/RiwayatMedis/Perawat/index";
+import PerawatAdd from "views/Admin/RiwayatMedis/Perawat/add";
 
-import PasienRiwayatMedisList from "views/Dashboard/Pasien/riwayat-medis";
-import PasienRiwayatMedisAdd from "views/Dashboard/Pasien/riwayat-medis/add";
+import UserList from "views/Admin/User/index";
+import UserAdd from "views/Admin/User/add";
+import UserEdit from "views/Admin/User/edit";
 
-import PasienAnamnesisList from "views/Dashboard/Pasien/anamnesis";
-import PasienAnamnesisAdd from "views/Dashboard/Pasien/anamnesis/add";
-// import Tables from "views/Dashboard/Tables";
-// import Billing from "views/Dashboard/Billing";
-// import RTLPage from "views/Dashboard/RTL";
-// import Profile from "views/Dashboard/Profile";
-// import SignIn from "views/Auth/SignIn.js";
-// import SignUp from "views/Auth/SignUp.js";
+import GiziList from "views/Admin/RiwayatMedis/Gizi/index";
+import GiziAdd from "views/Admin/RiwayatMedis/Gizi/add";
 
-import {
-  HomeIcon,
-  StatsIcon,
-  CreditIcon,
-  PersonIcon,
-  DocumentIcon,
-  RocketIcon,
-  SupportIcon,
-} from "components/Icons/Icons";
+import FarmasiList from "views/Admin/RiwayatMedis/Farmasi/index";
+import FarmasiAdd from "views/Admin/RiwayatMedis/Farmasi/add";
+
+import LaboranList from "views/Admin/RiwayatMedis/Laboran/index";
+import LaboranAdd from "views/Admin/RiwayatMedis/Laboran/add";
+
+import { HomeIcon, StatsIcon } from "components/Icons/Icons";
+import SignIn from "views/Auth/SignIn";
+import Profile from "views/Admin/Profile";
+import { RiwayatMedisDetail } from "views/Admin/RiwayatMedis/Detail";
 
 var dashRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
     layout: "/admin",
@@ -42,78 +42,171 @@ var dashRoutes = [
     // path: "/pasien",
     views: [],
   },
+
+  {
+    path: "/user/list",
+    name: "Pengguna",
+    icon: <HomeIcon color="inherit" />,
+    component: UserList,
+    layout: "/admin",
+    roles: ["admin"],
+  },
+  {
+    path: "/user/add",
+    name: "Tambah Pengguna",
+    icon: <HomeIcon color="inherit" />,
+    component: UserAdd,
+    layout: "/admin",
+    secondaryNavbar: true,
+    hide: true,
+    roles: ["admin"],
+  },
+  {
+    path: "/user/edit/:id",
+    name: "Ubah Pengguna",
+    icon: <HomeIcon color="inherit" />,
+    component: UserEdit,
+    layout: "/admin",
+    secondaryNavbar: true,
+    hide: true,
+    roles: ["admin"],
+  },
+
   {
     path: "/pasien/list",
     name: "Pasien",
-    rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Pasien,
     layout: "/admin",
+    roles: ["doctor"],
   },
   {
     path: "/pasien/add",
     name: "Tambah Pasien",
-    rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: PasienAdd,
     layout: "/admin",
     secondaryNavbar: true,
+    hide: true,
   },
   {
     path: "/pasien/riwayat-medis/list/:id",
     name: "List Riwayat Medis",
-    rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: PasienRiwayatMedisList,
     layout: "/admin",
     hide: true,
   },
+
   {
     path: "/pasien/riwayat-medis/add/:id",
     name: "Tambah Riwayat Medis",
-    rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: PasienRiwayatMedisAdd,
     layout: "/admin",
-    secondaryNavbar: true,
     hide: true,
   },
 
   {
-    path: "/pasien/anamnesis/list/:id",
-    name: "List Anamnesis",
-    rtlName: "لوحة القيادة",
+    path: "/riwayat-medis/list",
+    name: "List Riwayat Medis",
     icon: <HomeIcon color="inherit" />,
-    component: PasienAnamnesisList,
+    component: RiwayatMedisList,
+    layout: "/admin",
+    roles: ["nurse", "gizi", "laboran", "farmasi", "patient"],
+  },
+
+  {
+    path: "/riwayat-medis/detail/:paramCheckup",
+    name: "List Perawat",
+    icon: <HomeIcon color="inherit" />,
+    component: RiwayatMedisDetail,
+    layout: "/admin",
+    hide: true,
+  },
+
+  {
+    path: "/riwayat-medis/perawat/list/:paramCheckup",
+    name: "List Perawat",
+    icon: <HomeIcon color="inherit" />,
+    component: PerawatList,
     layout: "/admin",
     hide: true,
   },
   {
-    path: "/pasien/anamnesis/add/:id",
-    name: "Tambah Anamnesis",
-    rtlName: "لوحة القيادة",
+    path: "/riwayat-medis/perawat/add/:paramCheckup",
+    name: "Tambah Perawat",
     icon: <HomeIcon color="inherit" />,
-    component: PasienAnamnesisAdd,
+    component: PerawatAdd,
     layout: "/admin",
-    secondaryNavbar: true,
     hide: true,
   },
 
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   rtlName: "لوحة القيادة",
-  //   icon: <StatsIcon color="inherit" />,
-  //   component: Tables,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/billing",
-  //   name: "Billing",
-  //   rtlName: "لوحة القيادة",
-  //   icon: <CreditIcon color="inherit" />,
-  //   component: Billing,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/riwayat-medis/gizi/list/:paramCheckup",
+    name: "List Gizi",
+    icon: <HomeIcon color="inherit" />,
+    component: GiziList,
+    layout: "/admin",
+    hide: true,
+  },
+  {
+    path: "/riwayat-medis/gizi/add/:paramCheckup",
+    name: "Tambah Gizi",
+    icon: <HomeIcon color="inherit" />,
+    component: GiziAdd,
+    layout: "/admin",
+    hide: true,
+  },
+
+  {
+    path: "/riwayat-medis/farmasi/list/:paramCheckup",
+    name: "List Farmasi",
+    icon: <HomeIcon color="inherit" />,
+    component: FarmasiList,
+    layout: "/admin",
+    hide: true,
+  },
+  {
+    path: "/riwayat-medis/farmasi/add/:paramCheckup",
+    name: "Tambah Farmasi",
+    icon: <HomeIcon color="inherit" />,
+    component: FarmasiAdd,
+    layout: "/admin",
+    hide: true,
+  },
+
+  {
+    path: "/riwayat-medis/laboran/list/:paramCheckup",
+    name: "List Laboran",
+    icon: <HomeIcon color="inherit" />,
+    component: LaboranList,
+    layout: "/admin",
+    hide: true,
+  },
+  {
+    path: "/riwayat-medis/laboran/add/:paramCheckup",
+    name: "Tambah Laboran",
+    icon: <HomeIcon color="inherit" />,
+    component: LaboranAdd,
+    layout: "/admin",
+    hide: true,
+  },
+
+  {
+    path: "/login",
+    name: "Login",
+    icon: <StatsIcon color="inherit" />,
+    component: SignIn,
+    layout: "/auth",
+    hide: true,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: <StatsIcon color="inherit" />,
+    component: Profile,
+    layout: "/admin",
+  },
 ];
 export default dashRoutes;

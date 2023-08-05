@@ -28,7 +28,7 @@ export default function Dashboard(props) {
 		return window.location.pathname !== '/admin/full-screen-maps';
 	};
 	const getActiveRoute = (routes) => {
-		let activeRoute = 'Default Brand Text';
+		let activeRoute = 'MEDICHAIN';
 		for (let i = 0; i < routes.length; i++) {
 			if (routes[i].collapse) {
 				let collapseActiveRoute = getActiveRoute(routes[i].views);
@@ -84,7 +84,7 @@ export default function Dashboard(props) {
 	};
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	document.documentElement.dir = 'ltr';
-	console.log(getRoutes(routes))
+	// console.log(getRoutes(routes))
 	// Chakra Color Mode
 	return (
 		<ChakraProvider theme={theme} resetCss={false}>

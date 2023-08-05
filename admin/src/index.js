@@ -23,17 +23,20 @@ import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
 import { Web3Provider } from "contexts/Web3Context";
+import { AuthProvider } from "contexts/AuthContext";
 
 ReactDOM.render(
   <Web3Provider>
-    <HashRouter>
-      <Switch>
-        <Route path={`/auth`} component={AuthLayout} />
-        <Route path={`/admin`} component={AdminLayout} />
-        {/* <Route path={`/rtl`} component={RTLLayout} /> */}
-        <Redirect from={`/`} to="/auth" />
-      </Switch>
-    </HashRouter>
+    <AuthProvider>
+      <HashRouter>
+        <Switch>
+          <Route path={`/auth`} component={AuthLayout} />
+          <Route path={`/admin`} component={AdminLayout} />
+          {/* <Route path={`/rtl`} component={RTLLayout} /> */}
+          <Redirect from={`/`} to="/auth" />
+        </Switch>
+      </HashRouter>
+    </AuthProvider>
   </Web3Provider>,
   document.getElementById("root")
 );
