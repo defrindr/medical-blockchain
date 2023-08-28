@@ -6,9 +6,9 @@ const validateStore = [
   body("password")
     .isLength({ min: 6 })
     .withMessage("Password setidaknya harus mempunyai panjang 6 karakter"),
-  body("blockchainAddress")
-    .notEmpty()
-    .withMessage("Address blockchain tidak boleh kosong"),
+  // body("blockchainAddress")
+  //   .notEmpty()
+  //   .withMessage("Address blockchain tidak boleh kosong"),
 
   body("noIdentity").notEmpty().withMessage("NIK tidak boleh kosong"),
   body("address").notEmpty().withMessage("Alamat tidak boleh kosong"),

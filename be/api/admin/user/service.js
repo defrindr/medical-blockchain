@@ -80,6 +80,7 @@ const store = async (req, res) => {
       data: model,
     });
   } catch (error) {
+    console.log(error)
     if (!transaction.finished) await transaction.rollback();
     return res.status(400).json({
       status: false,
@@ -128,6 +129,7 @@ const update = async (req, res) => {
       data: model,
     });
   } catch (error) {
+    console.log(error)
     await transaction.rollback();
     return res.status(400).json({ status: false, message: error.message });
   }

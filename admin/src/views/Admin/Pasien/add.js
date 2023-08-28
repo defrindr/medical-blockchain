@@ -47,7 +47,7 @@ export default function Dashboard() {
       !nama ||
       !email ||
       !password ||
-      !blockchainAddress ||
+      // !blockchainAddress ||
       !alamat ||
       !jenisKelamin ||
       !golonganDarah ||
@@ -62,7 +62,7 @@ export default function Dashboard() {
         name: nama,
         email,
         password,
-        blockchainAddress,
+        blockchainAddress: null,
         address: alamat,
         gender: jenisKelamin,
         bloodType: golonganDarah,
